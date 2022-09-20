@@ -1,0 +1,120 @@
+name: jpa
+description: jpa plugin
+display-name: jpa
+picture: plugin.png
+category: backend # Ref: https://docs.stackspot.com/latest/docs/creators-guide/yaml/#category
+compatibility:
+  - java
+  - spring
+about: docs/about.md
+usage: docs/usage.md
+use-case: docs/use-case.md
+implementation: docs/implementation.md
+technologies: # Ref: https://docs.stackspot.com/latest/docs/creators-guide/yaml/#technologies
+  - "Api"
+types:
+  - app
+inputs:
+  - label: What kind of database would you like to use?
+    type: text
+    name: database_kind
+    items:
+      - "MySQL"
+      - "PostgreSQL"
+    default: "PostgreSQL"
+  - label: Database host environment variable
+    type: text
+    name: env_db_host
+    default: ENV_DB_HOST
+  - label: Database port environment variable
+    type: text
+    name: env_db_port
+    default: ENV_DB_PORT
+  - label: Database name environment variable
+    type: text
+    name: env_db_name
+    default: ENV_DB_NAME
+  - label: Database username environment variable
+    type: text
+    name: env_db_username
+    default: ENV_DB_USERNAME
+  - label: Database password environment variable
+    type: text
+    name: env_db_password
+    default: ENV_DB_PASSWORD
+  - label: Would you like to add a repository?
+    type: text
+    name: add_repository
+    items:
+      - "No"
+      - "Yes"
+  - label: Repository name
+    type: text
+    name: repository_name
+    default: Sample
+    condition:
+      variable: add_repository
+      operator: ==
+      value: "Yes"
+
+hooks:
+  - type: edit
+    trigger: after-render
+    path: app/build.gradle
+    changes:
+      - search:
+          string: "implementation project(':core')"
+          insert-before:
+            snippet: snippets/build.gradle
+          when:
+            snippet: snippets/build.gradle
+  - type: edit
+    trigger: after-render
+    path: app/src/main/resources/application.yaml
+    changes:
+      - insert:
+          line: -1
+          snippet: snippets/resources/application.yaml
+          when:
+            not-exists-snippet: snippets/resources/application.yaml
+  - type: render-templates
+    trigger: before-render
+    path: "skeletons/repositories"
+    condition:
+      variable: add_repository
+      operator: ==
+      value: "Yes"
+  - type: edit
+    trigger: after-render
+    path: "app/src/main/java/{{global_computed_inputs.directory}}/configuration/RepositoryConfiguration.java"
+    changes:
+      - search:
+          string: "public class RepositoryConfiguration {"
+          insert-after:
+            snippet: snippets/src/RepositoryConfiguration.java
+          when:
+            not-exists-snippet: snippets/src/RepositoryConfiguration.java
+      - search:
+          string: "import org.springframework.context.annotation.Configuration;"
+          insert-before:
+            value: "import javax.persistence.EntityManager;\n"
+          when:
+            not-exists: "import javax.persistence.EntityManager;"
+      - search:
+          string: "import org.springframework.context.annotation.Configuration;"
+          insert-before:
+            value: "import org.springframework.context.annotation.Bean;\n"
+          when:
+            not-exists: "import org.springframework.context.annotation.Bean;"
+      - search:
+          string: "import org.springframework.context.annotation.Configuration;"
+          insert-after:
+            value: |
+
+              import {{global_computed_inputs.package}}.adapters.outbound.repository.{{inputs.repository_name}}Repository;
+              import {{global_computed_inputs.package}}.ports.outbound.repository.{{inputs.repository_name}}RepositoryPort;
+
+          when:
+            not-exists: |
+              import {{global_computed_inputs.package}}.adapters.outbound.repository.{{inputs.repository_name}}Repository;
+              import {{global_computed_inputs.package}}.ports.outbound.repository.{{inputs.repository_name}}RepositoryPort;

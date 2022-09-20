@@ -1,6 +1,6 @@
 description: Templates, plugins and stackfiles for starting and evolving spring projects
-name: stack-spring-hexagonal
-display-name: stack-spring-hexagonal
+name: stack-spring-hexa
+display-name: stack-spring-hexa
 picture: stack.png
 category: backend # Ref: https://docs.stackspot.com/latest/docs/creators-guide/yaml/#category
 compatibility: # Put a list of technologies compatible with the stack

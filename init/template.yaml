@@ -1,0 +1,47 @@
+name: init
+description: Describe your template explaining its purpose
+types:
+  - app-template
+inputs:
+  - label: Project name
+    type: text
+    name: project_name
+    default: project-name
+  - label: Group id
+    type: text
+    name: group_id
+    default: br.com.zup
+  - label: Artifact id
+    type: text
+    name: artifact_id
+  - label: Version
+    type: text
+    name: version
+    default: 0.0.1-SNAPSHOT
+  - label: Java version
+    type: text
+    name: java_version
+    default: 17
+  - label: Spring Boot version
+    type: text
+    name: spring_version
+    default: 2.7.3
+  - label: Spring Dependency Management version
+    type: text
+    name: spring_dependency_management_version
+    default: 1.0.13.RELEASE
+  - label: Lombok version
+    type: text
+    name: lombok_version
+    default: 1.18.24
+  - label: ModelMapper version
+    type: text
+    name: modelmapper_version
+    default: 3.0.0
+
+global-computed-inputs:
+  group_id: "{{inputs.group_id}}"
+  artifact_id: "{{inputs.artifact_id}}"
+  version: "{{inputs.version}}"
+  package: "{{inputs.group_id}}.{{inputs.artifact_id}}"
+  directory: "{{global_computed_inputs.package | replace('.', '/')}}"

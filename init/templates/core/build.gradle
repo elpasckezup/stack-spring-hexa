@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group '{{inputs.group_id}}'
+version '{{inputs.version}}'
+sourceCompatibility = '{{inputs.java_version}}'
+
+repositories {
+    maven { url 'https://repo.spring.io/release' }
+    mavenCentral()
+}
+
+dependencies {
+
+    compileOnly 'org.projectlombok:lombok:{{inputs.lombok_version}}'
+    annotationProcessor 'org.projectlombok:lombok:{{inputs.lombok_version}}'
+
+    testCompileOnly 'org.projectlombok:lombok:{{inputs.lombok_version}}'
+    testAnnotationProcessor 'org.projectlombok:lombok:{{inputs.lombok_version}}'
+}

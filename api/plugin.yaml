@@ -1,0 +1,83 @@
+name: api
+description: api plugin
+display-name: api
+picture: plugin.png
+category: backend # Ref: https://docs.stackspot.com/latest/docs/creators-guide/yaml/#category
+compatibility:
+  - java
+  - spring
+about: docs/about.md
+usage: docs/usage.md
+use-case: docs/use-case.md
+implementation: docs/implementation.md
+technologies: # Ref: https://docs.stackspot.com/latest/docs/creators-guide/yaml/#technologies
+  - "Api"
+types:
+  - app
+inputs:
+  - label: Would you like to add a context path?
+    type: text
+    name: add_context_path
+    items:
+      - "No"
+      - "Yes"
+    default: "No"
+  - label: Context path
+    type: text
+    name: context_path
+    default: /sample
+    pattern: ^\/.+$
+    condition:
+      variable: add_context_path
+      operator: ==
+      value: "Yes"
+  - label: Would you like to add a controller?
+    type: text
+    name: add_controller
+    items:
+      - "No"
+      - "Yes"
+  - label: Controller name
+    type: text
+    name: controller_name
+    default: Sample
+    condition:
+      variable: add_controller
+      operator: ==
+      value: "Yes"
+  - label: Controller request mapping
+    type: text
+    name: controller_request_mapping
+    default: samples
+    condition:
+      variable: add_controller
+      operator: ==
+      value: "Yes"
+
+hooks:
+  - type: edit
+    trigger: after-render
+    path: app/build.gradle
+    changes:
+      - search:
+          string: "implementation project(':core')"
+          insert-before:
+            snippet: snippets/build.gradle
+          when:
+            not-exists-snippet: snippets/build.gradle
+  - type: edit
+    trigger: after-render
+    path: app/src/main/resources/application.yaml
+    changes:
+      - insert:
+          line: 0
+          snippet: snippets/resources/application.yaml
+          when:
+            not-exists: snippets/resources/application.yaml
+  - type: render-templates
+    trigger: before-render
+    path: "skeletons/controllers"
+    condition:
+      variable: add_controller
+      operator: ==
+      value: "Yes"

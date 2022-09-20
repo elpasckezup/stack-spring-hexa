@@ -1,0 +1,7 @@
+{% if inputs.add_context_path == "Yes" %}
+---
+# Context path
+server:
+  servlet:
+    context-path: {{inputs.context_path}}
+{% endif %}

@@ -1,12 +1,12 @@
 type: app
 description: Default stackfile usecase description
 # template used to create the project
-template: stack-spring-hexagonal/<template-name>
+template: stack-spring-hexa/<template-name>
 inputs:
   some_input: value
 # list of plugins to be applied after project creation
 plugins:
-  - plugin: stack-spring-hexagonal/<plugin-name>
+  - plugin: stack-spring-hexa/<plugin-name>
     inputs:
       some_input: value
       some_list:

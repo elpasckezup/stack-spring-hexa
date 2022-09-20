@@ -1,0 +1,32 @@
+plugins {
+    id 'org.springframework.boot' version '{{inputs.spring_version}}'
+    id 'io.spring.dependency-management' version '{{inputs.spring_dependency_management_version}}'
+    id 'java'
+}
+
+group '{{inputs.group_id}}'
+version '{{inputs.version}}'
+sourceCompatibility = '{{inputs.java_version}}'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.modelmapper:modelmapper:{{inputs.modelmapper_version}}'
+    implementation project(':core')
+
+    compileOnly 'org.projectlombok:lombok:{{inputs.lombok_version}}'
+    annotationProcessor 'org.projectlombok:lombok:{{inputs.lombok_version}}'
+
+    testCompileOnly 'org.projectlombok:lombok:{{inputs.lombok_version}}'
+    testAnnotationProcessor 'org.projectlombok:lombok:{{inputs.lombok_version}}'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

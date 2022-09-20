@@ -1,0 +1,54 @@
+name: usecase
+description: usecase plugin
+display-name: usecase
+picture: plugin.png
+category: backend # Ref: https://docs.stackspot.com/latest/docs/creators-guide/yaml/#category
+compatibility:
+  - java
+  - spring
+about: docs/about.md
+usage: docs/usage.md
+use-case: docs/use-case.md
+implementation: docs/implementation.md
+technologies: # Ref: https://docs.stackspot.com/latest/docs/creators-guide/yaml/#technologies
+  - "Api"
+types:
+  - app
+inputs:
+  - label: Use Case name
+    type: text
+    name: usecase_name
+    default: any text
+
+hooks:
+  - type: run-script
+    trigger: before-render
+    script: scripts/handler.py
+  - type: edit
+    trigger: after-render
+    path: "app/src/main/java/{{global_computed_inputs.directory}}/configuration/UseCaseConfiguration.java"
+    changes:
+      - search:
+          string: "public class UseCaseConfiguration {"
+          insert-after:
+            snippet: snippets/src/UseCaseConfiguration.java
+          when:
+            not-exists-snippet: snippets/src/UseCaseConfiguration.java
+      - search:
+          string: "import org.springframework.context.annotation.Configuration;"
+          insert-before:
+            value: "import org.springframework.context.annotation.Bean;\n"
+          when:
+            not-exists: "import org.springframework.context.annotation.Bean;"
+      - search:
+          string: "import org.springframework.context.annotation.Configuration;"
+          insert-after:
+            value: |
+
+              import {{global_computed_inputs.package}}.ports.inbound.usecase.{{inputs.usecase_name}}UseCase;
+              import {{global_computed_inputs.package}}.ports.inbound.usecase.{{inputs.usecase_name}}UseCasePort;
+
+          when:
+            not-exists: |
+              import {{global_computed_inputs.package}}.ports.inbound.usecase.{{inputs.usecase_name}}UseCase;
+              import {{global_computed_inputs.package}}.ports.inbound.usecase.{{inputs.usecase_name}}UseCasePort;

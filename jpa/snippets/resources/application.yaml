@@ -1,0 +1,9 @@
+---
+# Persistence
+spring:
+  datasource:
+    url: jdbc:{{ inputs.database_kind | lower }}://{% raw %}${{% endraw %}{{ inputs.env_db_host }}{% raw %}}{% endraw %}:{% raw %}${{% endraw %}{{ inputs.env_db_port }}{% raw %}}{% endraw %}/{% raw %}${{% endraw %}{{ inputs.env_db_name }}{% raw %}}{% endraw %} 
+    username: {% raw %}${{% endraw %}{{ inputs.env_db_username }}{% raw %}}{% endraw %} 
+    password: {% raw %}${{% endraw %}{{ inputs.env_db_password }}{% raw %}}{% endraw %} 
+  jpa:
+    show-sql: false

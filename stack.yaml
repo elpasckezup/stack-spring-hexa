@@ -2,11 +2,11 @@ description: Templates, plugins and stackfiles for starting and evolving spring 
 name: stack-spring-hexa
 display-name: stack-spring-hexa
 picture: stack.png
-category: backend # Ref: https://docs.stackspot.com/latest/docs/creators-guide/yaml/#category
-compatibility: # Put a list of technologies compatible with the stack
+category: backend
+compatibility:
   - java
   - spring
-technologies: # Ref: https://docs.stackspot.com/latest/docs/creators-guide/yaml/#technologies 
+technologies:
   - docker 
 about: docs/about.md
 use-cases:

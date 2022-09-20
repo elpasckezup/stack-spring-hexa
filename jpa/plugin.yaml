@@ -2,7 +2,7 @@ name: jpa
 description: jpa plugin
 display-name: jpa
 picture: plugin.png
-category: backend # Ref: https://docs.stackspot.com/latest/docs/creators-guide/yaml/#category
+category: backend
 compatibility:
   - java
   - spring
@@ -10,7 +10,7 @@ about: docs/about.md
 usage: docs/usage.md
 use-case: docs/use-case.md
 implementation: docs/implementation.md
-technologies: # Ref: https://docs.stackspot.com/latest/docs/creators-guide/yaml/#technologies
+technologies:
   - "Api"
 types:
   - app

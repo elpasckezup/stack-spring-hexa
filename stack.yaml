@@ -9,7 +9,7 @@ compatibility:
 technologies:
   - docker 
 about: docs/about.md
-# use-cases:
-#   - title: Use Case Title
-#     content: docs/use-case.md
-#     stackfile: stackfiles/default.yaml
+use-cases:
+  - title: Use Case Title
+    content: docs/use-case.md
+    stackfile: stackfiles/default.yaml
